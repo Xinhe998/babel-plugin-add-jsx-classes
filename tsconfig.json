@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "Node",
+    "target": "es2019",
+    "strict": true,
+    "module": "CommonJS",
+    "types": ["babel__core"],
+    "lib": ["es2015"],
+    "downlevelIteration": true,
+    "declaration": true,
+    "declarationMap": false,
+    "declarationDir": "./dist/types"
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}

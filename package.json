@@ -1,0 +1,51 @@
+{
+  "name": "babel-plugin-add-jsx-classes",
+  "description": "Add JSX className",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "repository": "",
+  "author": "Xinhe Hsu <xinhe998@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "babel-plugin",
+    "babel",
+    "react",
+    "jsx",
+    "transform",
+    "classname"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/types": "^7.7.4"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.3",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "^8.1.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "react": "^17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0-0"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc -b ./tsconfig.json",
+    "lint": "eslint ./src/**/*.ts --fix"
+  }
+}
