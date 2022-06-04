@@ -23,8 +23,8 @@ function FancyComponent () {
       <pre>
 function FancyComponent () {
   return (
-    &lt;div class='example'&gt;
-      &lt;div class='example'&gt;Hello World&lt;/div&gt;
+    &lt;div className='example'&gt;
+      &lt;div className='example'&gt;Hello World&lt;/div&gt;
     &lt;/div&gt;
   )
 }
