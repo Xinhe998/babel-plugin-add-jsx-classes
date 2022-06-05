@@ -3,6 +3,7 @@ import { NodePath, PluginObj, types as t } from "@babel/core";
 import { JSXOpeningElement, JSXAttribute } from "@babel/types";
 
 import { PluginTransformState, PluginOptions } from './types';
+import TaggedTemplateExpression from './styled-components';
 
 function isReactFragment(node: any) {
   return (
@@ -13,7 +14,7 @@ function isReactFragment(node: any) {
   );
 }
 
-function isClassNameAlreadySet(node: any, className: PluginOptions['className']): boolean {
+function isClassNameAlreadySet(node: any, className: string): boolean {
   if (!node.attributes) return false;
 
   const classNameAttrIndex =
@@ -61,13 +62,13 @@ function applyClassName({ openingElement, className }: {
       }
     };
 
-    if (!isReactFragment(node) && !isClassNameAlreadySet(node, className)) {
+    if (!isReactFragment(node)) {
       if (Array.isArray(className)) {
         className.forEach(c => {
-          pushOrReplaceClassName(node, c);
+          !isClassNameAlreadySet(node, c) && pushOrReplaceClassName(node, c);
         });
       } else {
-        pushOrReplaceClassName(node, className);
+        !isClassNameAlreadySet(node, className) && pushOrReplaceClassName(node, className);
       }
     }
   };
@@ -77,6 +78,7 @@ function applyClassName({ openingElement, className }: {
 
 export default function({}: typeof babel): PluginObj<PluginTransformState> {
   const visitor = {
+    TaggedTemplateExpression,
     JSXOpeningElement(path: NodePath<JSXOpeningElement>, { opts }: PluginTransformState) {
       if (!path.node.name) return;
 
