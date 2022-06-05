@@ -5,7 +5,7 @@
     "target": "es2019",
     "strict": true,
     "module": "CommonJS",
-    "types": ["babel__core"],
+    "types": ["babel__core", "node"],
     "lib": ["es2015"],
     "downlevelIteration": true,
     "declaration": true,
