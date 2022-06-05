@@ -10,6 +10,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc -b ./tsconfig.json",
+    "lint": "eslint ./src/**/*.ts --fix",
+    "semantic-release": "semantic-release"
+  },
   "files": [
     "dist"
   ],
@@ -30,20 +35,28 @@
     "@babel/types": "^7.7.4"
   },
   "devDependencies": {
-    "@types/babel__core": "^7.1.19",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
+    "@semantic-release/github": "^8.0.4",
+    "@semantic-release/npm": "^9.0.1",
+    "@types/babel__core": "^7.1.19",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "eslint": "^8.1.0",
     "eslint-plugin-react": "^7.26.1",
+    "semantic-release": "^19.0.2",
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
   },
-  "scripts": {
-    "build": "rm -rf ./dist && tsc -b ./tsconfig.json",
-    "lint": "eslint ./src/**/*.ts --fix"
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      "@semantic-release/npm"
+    ],
+    "branches": ["main"]
   }
 }
