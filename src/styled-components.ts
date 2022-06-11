@@ -1,9 +1,10 @@
-import { NodePath, types as t } from "@babel/core";
-import { TaggedTemplateExpression } from "@babel/types";
-
+import { NodePath, types as t } from '@babel/core';
 import { PluginTransformState } from './types';
 
-export default function TaggedTemplateExpression(path: NodePath<TaggedTemplateExpression>, { opts }: PluginTransformState) {
+export default function TaggedTemplateExpression(
+  path: NodePath<t.TaggedTemplateExpression>,
+  { opts }: PluginTransformState
+) {
   const scope = path.scope;
   const customClassName = opts.className.toString().replace(',', ' ');
 
@@ -28,30 +29,32 @@ export default function TaggedTemplateExpression(path: NodePath<TaggedTemplateEx
         node.callee.object = insertBefore(node.callee.object, customClassName);
         break;
       }
-      node = node.callee.object
+      node = node.callee.object;
     }
   } catch (e) {}
 
   // hoisted helpers in closure
-  function insertBefore(node: any, className: string) {
+  function insertBefore(node: t.Expression, className: string) {
     return t.callExpression(t.memberExpression(node, t.identifier('attrs')), [
       t.objectExpression([
         t.objectProperty(
           t.stringLiteral('className'),
           t.stringLiteral(className)
-        )
-      ])
-    ])
+        ),
+      ]),
+    ]);
   }
 
-  function isStyledPrefix(node: any) {
+  function isStyledPrefix(node: t.Expression) {
     // handle two forms: styled.div and styled(Comp)
     return (
       (t.isMemberExpression(node) && isStyledComponentsBinding(node.object)) ||
       (t.isCallExpression(node) && isStyledComponentsBinding(node.callee))
-    )
-    function isStyledComponentsBinding(node: any) {
-      if (!t.isIdentifier(node)) return false
+    );
+    function isStyledComponentsBinding(
+      node: t.Expression | t.V8IntrinsicIdentifier
+    ) {
+      if (!t.isIdentifier(node)) return false;
 
       const binding = scope.getBinding(node.name) as any;
       if (!binding || binding.kind !== 'module') return false;
