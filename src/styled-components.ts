@@ -6,7 +6,9 @@ export default function TaggedTemplateExpression(
   { opts }: PluginTransformState
 ) {
   const scope = path.scope;
-  const customClassName = opts.className.toString().replace(',', ' ');
+  const customClassName = Array.isArray(opts.className)
+    ? opts.className.join(' ')
+    : opts.className;
 
   try {
     // simple case

@@ -35,13 +35,24 @@ function getJSXAttributeValue(node: any) {
 /**
  * Tests if a node is `null` or `undefined`
  */
-const isNullLikeNode = (node: any) =>
-  t.isNullLiteral(node) || t.isIdentifier(node, { name: 'undefined' });
+const isNullLikeNode = (
+  node:
+    | t.Expression
+    | t.SpreadElement
+    | t.JSXNamespacedName
+    | t.ArgumentPlaceholder
+) => t.isNullLiteral(node) || t.isIdentifier(node, { name: 'undefined' });
 
 /**
  * Tests if a node is an object expression with noncomputed, nonmethod attrs
  */
-const isPlainObjectExpression = (node: any) =>
+const isPlainObjectExpression = (
+  node:
+    | t.Expression
+    | t.SpreadElement
+    | t.JSXNamespacedName
+    | t.ArgumentPlaceholder
+) =>
   t.isObjectExpression(node) &&
   node.properties.every(
     property =>
@@ -54,7 +65,13 @@ const isPlainObjectExpression = (node: any) =>
 /**
  * Tests if a node is a CallExpression with callee `React.createElement`
  */
-const isReactCreateElement = (node: any) =>
+const isReactCreateElement = (
+  node:
+    | t.Expression
+    | t.SpreadElement
+    | t.JSXNamespacedName
+    | t.ArgumentPlaceholder
+) =>
   t.isCallExpression(node) &&
   t.isMemberExpression(node.callee) &&
   t.isIdentifier(node.callee.object, { name: 'React' }) &&
@@ -64,7 +81,14 @@ const isReactCreateElement = (node: any) =>
 /**
  * Tests if a node is a MemberExpression with object `Object.assign`
  */
-const isObjectAssignMemberExpression = (node: any) =>
+const isObjectAssignMemberExpression = (
+  node:
+    | t.Expression
+    | t.SpreadElement
+    | t.JSXNamespacedName
+    | t.ArgumentPlaceholder
+) =>
+  t.isCallExpression(node) &&
   t.isMemberExpression(node.callee) &&
   t.isIdentifier(node.callee.object, { name: 'Object' }) &&
   t.isIdentifier(node.callee.property, { name: 'assign' });
@@ -172,7 +196,9 @@ export default function CallExpression(
   path: NodePath<CallExpression>,
   { opts }: PluginTransformState
 ) {
-  const customClassName = opts.className.toString().replace(',', ' ');
+  const customClassName = Array.isArray(opts.className)
+    ? opts.className.join(' ')
+    : opts.className;
   const node = path.node;
 
   if (!isReactCreateElement(node)) {
