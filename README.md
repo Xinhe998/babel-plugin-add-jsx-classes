@@ -36,6 +36,11 @@ function FancyComponent () {
 
 > This plugin asumes that you are using [React](https://reactjs.org) and [Babel](https://babeljs.io) as a building tool to generate your bundle.
 
+## Features
+
+- Adds the `className` in each JSX element in your project.
+- Supports styled-components.
+
 
 ## Install
 
